@@ -1,2 +1,2 @@
-# webpack-static-site
-Webpack static site template.
+# WebPack static website template
+Easy to use static plain html / css / scss WebPack project.
