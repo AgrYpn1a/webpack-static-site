@@ -2,7 +2,7 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = (preserveDirs = false) => {
-  const htmlPages = ["about"];
+  const htmlPages = require("./pages");
   const htmlWebpackPages = htmlPages.map((name) => {
     return new HtmlWebpackPlugin({
       filename: preserveDirs ? `${name}/${name}.html` : `${name}.html`, // output HTML files

@@ -1,5 +1,2 @@
-/** Styles */
-import "./styles/about.scss";
-
-/** Scripts */
-import "./js/hello";
+import './about.html';
+import './styles/about.scss';

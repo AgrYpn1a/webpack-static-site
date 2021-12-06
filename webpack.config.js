@@ -1,9 +1,10 @@
-const path = require("path");
+const path = require('path');
 
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const htmlPages = require("./htmlweback.config")(false);
+const htmlPages = require('./config/htmlwebpack.config')(false);
+const entries = require('./config/entries.json');
 
 const plugins = [
   new MiniCssExtractPlugin(),
@@ -12,42 +13,55 @@ const plugins = [
   // we're going to add more instances
   // for other pages
   new HtmlWebpackPlugin({
-    template: "./src/index.html",
-    chunks: ["index"],
+    template: './src/index/index.html',
+    chunks: ['index'],
   }),
 ].concat(htmlPages);
 
 module.exports = {
-  mode: "development",
+  mode: 'development',
   devServer: {
     static: {
-      directory: path.join(__dirname, "dist"),
+      directory: path.join(__dirname, 'dist'),
+      watch: {
+        ignored: /node_modules/,
+        usePolling: false,
+        watchFiles: ['./src/**/*.html', './src/**/*.scss', './src/**/*.js'],
+      },
     },
     compress: true,
     port: 8080,
   },
   plugins,
-  entry: {
-    index: "./src/index.js",
-    about: "/src/pages/about/about.js",
-  },
+  entry: entries,
   module: {
     rules: [
       {
         // SCSS
         test: /\.(s[ac]|c)ss$/i,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: "asset/resource",
+        type: 'asset/resource',
       },
       {
         test: /\.html$/i,
-        loader: "html-loader",
+        loader: 'html-loader',
+      },
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.js$/,
+        use: {
+          loader: 'babel-loader',
+        },
       },
     ],
   },
 
-  devtool: "source-map",
+  devtool: 'source-map',
 };
