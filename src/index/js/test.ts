@@ -1,7 +1,12 @@
-class MyClass {
+export class MyClass {
   myMethod() {
     return 'Hello, world from TS!';
   }
 }
 
-console.log(new MyClass().myMethod());
+function myFunction() {
+  console.log('Hello from my function!');
+}
+
+const btn = <HTMLButtonElement>document.getElementById('btn-myFunction');
+btn.addEventListener('click', myFunction);
