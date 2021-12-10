@@ -7,12 +7,18 @@ module.exports = (root, args) => {
   const pagesPath = path.join(root, 'config/pages.json');
 
   if (!pageName) {
-    throw new Error(`Invalid argument --name, got ${pageName}`);
+    throw new Error(`Invalid argument for page name, got ${pageName}`);
   }
 
   // Add page to pages
   const rawData = fs.readFileSync(pagesPath);
   const pagesConfig = JSON.parse(rawData);
+
+  if (pagesConfig.includes(pageName)) {
+    throw new Error(
+      'Page with the same name already exists or there are uncleaned leftovers.'
+    );
+  }
 
   pagesConfig.push(pageName);
 
